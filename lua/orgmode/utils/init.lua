@@ -564,6 +564,7 @@ end
 ---@param skip_ftmatch? boolean
 ---@return string
 function utils.detect_filetype(name, skip_ftmatch)
+  local config = require('orgmode.config')
   local map = {
     ['emacs-lisp'] = 'lisp',
     elisp = 'lisp',
@@ -576,6 +577,7 @@ function utils.detect_filetype(name, skip_ftmatch)
     shell = 'bash',
     uxn = 'uxntal',
   }
+  map = vim.tbl_deep_extend('force', map, config.org_edit_src_filetype_map)
   if not skip_ftmatch then
     local filename = '__org__detect_filetype__.' .. (map[name] or name)
     local ft = vim.filetype.match({ filename = filename })
